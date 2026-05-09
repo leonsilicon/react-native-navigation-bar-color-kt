@@ -33,7 +33,7 @@ class NavigationBarColorModule(context: ReactApplicationContext) : ReactContextB
     override fun getConstants(): Map<String, Any> = mapOf("EXAMPLE_CONSTANT" to "example")
 
     private fun setNavigationBarTheme(light: Boolean) {
-        val activity = currentActivity ?: return
+        val activity = reactApplicationContext.currentActivity ?: return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val window = activity.window
             var flags = window.decorView.systemUiVisibility
@@ -52,7 +52,7 @@ class NavigationBarColorModule(context: ReactApplicationContext) : ReactContextB
             promise.reject(ERROR_API_LEVEL, Throwable(ERROR_API_LEVEL_MESSAGE))
             return
         }
-        val activity = currentActivity
+        val activity = reactApplicationContext.currentActivity
         if (activity == null) {
             promise.reject(ERROR_NO_ACTIVITY, Throwable(ERROR_NO_ACTIVITY_MESSAGE))
             return
@@ -107,7 +107,7 @@ class NavigationBarColorModule(context: ReactApplicationContext) : ReactContextB
     fun hideNavigationBar(promise: Promise) {
         try {
             runOnUiThread {
-                currentActivity?.window?.decorView?.systemUiVisibility = UI_FLAG_HIDE_NAV_BAR
+                reactApplicationContext.currentActivity?.window?.decorView?.systemUiVisibility = UI_FLAG_HIDE_NAV_BAR
             }
         } catch (e: IllegalViewOperationException) {
             val map = Arguments.createMap()
@@ -120,7 +120,7 @@ class NavigationBarColorModule(context: ReactApplicationContext) : ReactContextB
     fun showNavigationBar(promise: Promise) {
         try {
             runOnUiThread {
-                currentActivity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+                reactApplicationContext.currentActivity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
             }
         } catch (e: IllegalViewOperationException) {
             val map = Arguments.createMap()
